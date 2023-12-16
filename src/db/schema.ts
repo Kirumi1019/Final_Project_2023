@@ -7,7 +7,7 @@ export const membersTable = pgTable(
     schoolID: char("Member_id", {length: 9}).primaryKey(),
     // displayId: uuid("display_id").defaultRandom().notNull().unique(),
     name: varchar("Member_name", { length: 20 }).notNull(),
-    phone: char("Phone_Number", {length: 10}).notNull(),
+    phone: char("Phone_number", {length: 10}).notNull(),
     username: varchar("User_name", { length: 20 }).notNull().unique(),
     password: varchar("Password", { length: 20 }).notNull(),
     violationCount: integer("Violation_count").default(0),
@@ -28,6 +28,8 @@ export const membersTable = pgTable(
 export const memberRoleTable = pgTable(
     "member-role",
     {
+
+      id: serial("id").primaryKey(),
       schoolID: char("Member_id", {length: 9}).notNull().references(()=>membersTable.schoolID, {
         onDelete: "cascade",
         onUpdate: "cascade",
@@ -35,8 +37,5 @@ export const memberRoleTable = pgTable(
       role: varchar("Role", {length: 5, enum: ["User","Admin"]}).notNull(),
     },
     (table) => ({
-      pk: primaryKey({ columns: [table.schoolID, table.role] }),
+      uniqCombination: unique().on(table.schoolID, table.role),
       }),
-  );
-
-
