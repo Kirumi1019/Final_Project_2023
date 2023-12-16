@@ -28,7 +28,6 @@ export const membersTable = pgTable(
 export const memberRoleTable = pgTable(
     "member-role",
     {
-      id: serial("id").primaryKey(),
       schoolID: char("Member_id", {length: 9}).notNull().references(()=>membersTable.schoolID, {
         onDelete: "cascade",
         onUpdate: "cascade",
@@ -36,7 +35,7 @@ export const memberRoleTable = pgTable(
       role: varchar("Role", {length: 5, enum: ["User","Admin"]}).notNull(),
     },
     (table) => ({
-      uniqCombination: unique().on(table.schoolID, table.role),
+      pk: primaryKey({ columns: [table.schoolID, table.role] }),
       }),
   );
 

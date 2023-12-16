@@ -5,6 +5,8 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { publicEnv } from "@/lib/env/public";
 
+import ToProducts from "./ToProducts";
+
 async function Navbar() {
   const session = await auth();
   if (!session || !session?.user?.id) {
@@ -21,11 +23,7 @@ async function Navbar() {
       </Link>
       
       <section>
-        {Array.from({ length: 100 }, (_, i) => (
-          <div key={i} className="w-full border">
-            Content {i}
-          </div>
-        ))}
+        <ToProducts />
       </section>
     </div>
   );
