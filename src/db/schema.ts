@@ -7,7 +7,7 @@ export const membersTable = pgTable(
   {
     schoolID: char("Member_id", { length: 9 }).primaryKey(),
     // displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("Member_name", { length: 20 }).notNull(),
+    name: varchar("Member_name", { length: 30 }).notNull(),
     phone: char("Phone_number", {length: 10}).notNull(),
     username: varchar("User_name", { length: 20 }).notNull().unique(),
     password: varchar("Password", { length: 20 }).notNull(),
@@ -53,13 +53,10 @@ export const ordersTable = pgTable(
     buyerConfirmation: varchar("Buyer_confirmation ", {length: 10,  enum: ["Unfinished","Finished"]}).notNull().default("Unfinished"),
     sellerConfirmation: varchar("Seller_confirmation ", {length: 10,  enum: ["Unfinished","Finished"]}).notNull().default("Unfinished"),
     transactionRate: integer("Transaction_rate ").notNull(),
-    transactionContent: varchar("Transaction_content ", {length: 50}),
-    placeOrderDatetime: timestamp("timestamp").defaultNow().notNull(),
+    transactionContent: varchar("Transaction_content ", {length: 80}),
+    placeOrderDate: timestamp("Place_order_datetime").defaultNow().notNull(),
 
   },
-  (table) => ({
-    
-  }),
 );
 
 export const ordersContainTable = pgTable(
@@ -110,7 +107,7 @@ export const reportTable = pgTable(
       onDelete: "cascade",
       onUpdate: "cascade",
     }),
-    reportDescription: varchar("Report_description", { length: 50 }),
+    reportDescription: varchar("Report_description", { length: 100 }),
     reporterDatetime: timestamp("Reporter_datetime").default(sql`now()`).notNull(),
   }
 );
@@ -135,7 +132,7 @@ export const isInterestedInTable = pgTable(
 export const productTable = pgTable(
   "product", {
   productID: uuid("Product_id").defaultRandom().notNull().primaryKey(),
-  productName: varchar("Product_name", { length: 20 }).notNull(),
+  productName: varchar("Product_name", { length: 50}).notNull(),
   description: varchar("Description", { length: 100 }),
   price: integer("Price").notNull(),
   inventory: integer("Inventory").default(0),
@@ -147,7 +144,7 @@ export const productTable = pgTable(
   categoryID: uuid("Category_id").references(() => categoryTable.categoryID, {
     onDelete: "set null",
   }).default(sql`NULL`),
-  productStatus: varchar("Product_status", { length: 12, enum: ["Launched", "Stop-selling"] }).default("Launched").notNull(),
+  productStatus: varchar("Product_status", { length: 12, enum: ["launched", "stop-selling"] }).default("launched").notNull(),
 },
 );
 
@@ -168,7 +165,7 @@ export const giveFeedbackTable = pgTable(
     onDelete: "cascade",
     onUpdate: "cascade",
   }),
-  feedbackContent: varchar("Feedback_content", { length: 50 }),
+  feedbackContent: varchar("Feedback_content", { length: 100 }),
   feedbackDatetime: timestamp("Feedback_datetime").default(sql`now()`).notNull(),
 },
   (table) => ({

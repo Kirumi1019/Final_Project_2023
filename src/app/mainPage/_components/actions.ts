@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { membersTable } from "@/db/schema";
+import { productTable } from "@/db/schema";
 
 // export const createProduct = async (userId: string) => {
 //   "use server";
@@ -11,7 +11,7 @@ import { membersTable } from "@/db/schema";
 //     const [newPro] = await tx
 //       .insert(productsTable)
 //       .values({
-          
+
 //       })
 //       .returning();
 
@@ -20,21 +20,22 @@ import { membersTable } from "@/db/schema";
 //   return newProId;
 // };
 
-// export const getProducts = async () => {
-//   "use server";
+export const getProducts = async () => {
+  "use server";
+  const products = await db.query.productTable.findMany(
+    { where: eq(productTable.productStatus, "launched"), }
+  );
+  return products;
+};
 
-//   const products = await db.query.productsTable.findMany();
-//   return products;
-// };
+export const getMyProducts = async (userId: string) => {
+  "use server";
 
-// export const getMyProducts = async (userId: string) => {
-//   "use server";
-
-//   const products = await db.query.productsTable.findMany({
-//     where: eq(productsTable.userId, userId),
-//   });
-//   return products;
-// };
+  const products = await db.query.productTable.findMany({
+    where: eq(productTable.sellerID, userId),
+  });
+  return products;
+};
 
 // export const deleteProduct = async (productId: string) => {
 //   "use server";

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
+import { getMyProducts } from "../../_components/actions";
 
 async function MyProducts() {
   const session = await auth();
@@ -8,12 +9,15 @@ async function MyProducts() {
     redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
   }
   const userId = session.user.id;
-    return (
-      <div>
-        <h1>MyProducts</h1>
-        <h1>{userId}</h1>
-      </div>
-    );
-  }
-  export default MyProducts;
-  
+  const myProducts = await getMyProducts(userId);
+
+  return (
+    <div>
+      <h1>MyProducts</h1>
+      {myProducts.map((myProduct)=>{
+          return <div>{myProduct.productName} / {myProduct.price} / {myProduct.inventory}</div>
+        })}
+    </div>
+  );
+}
+export default MyProducts;
