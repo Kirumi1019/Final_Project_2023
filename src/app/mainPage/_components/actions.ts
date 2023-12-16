@@ -23,41 +23,24 @@ import { membersTable } from "@/db/schema";
 // export const getProducts = async () => {
 //   "use server";
 
-//   const products = await db.query.productsTable.findMany({
-//     with: {
-//       product: {
-//         columns: {
-//           // displayId: true,
-//           // title: true,
-//         },
-//       },
-//     },
-//   });
-//   return documents;
+//   const products = await db.query.productsTable.findMany();
+//   return products;
 // };
 
 // export const getMyProducts = async (userId: string) => {
 //   "use server";
 
-//   const documents = await db.query.usersToDocumentsTable.findMany({
-//     where: eq(usersToDocumentsTable.userId, userId),
-//     with: {
-//       document: {
-//         columns: {
-//           displayId: true,
-//           title: true,
-//         },
-//       },
-//     },
+//   const products = await db.query.productsTable.findMany({
+//     where: eq(productsTable.userId, userId),
 //   });
-//   return documents;
+//   return products;
 // };
 
-// export const deleteDocument = async (documentId: string) => {
+// export const deleteProduct = async (productId: string) => {
 //   "use server";
-//   console.log("[deleteDocument]");
+//   console.log("[deleteProduct]");
 //   await db
-//     .delete(documentsTable)
-//     .where(eq(documentsTable.displayId, documentId));
+//     .delete(productsTable)
+//     .where(eq(documentsTable.displayId, productId));
 //   return;
 // };
