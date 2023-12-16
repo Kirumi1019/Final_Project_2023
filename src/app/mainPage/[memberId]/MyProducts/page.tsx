@@ -3,6 +3,7 @@ import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 import { getMyProducts } from "../../_components/actions";
 
+
 async function MyProducts() {
   const session = await auth();
   if (!session || !session?.user?.id) {
@@ -14,9 +15,9 @@ async function MyProducts() {
   return (
     <div>
       <h1>MyProducts</h1>
-      {myProducts.map((myProduct)=>{
-          return <div>{myProduct.productName} / {myProduct.price} / {myProduct.inventory}</div>
-        })}
+      {myProducts.map((myProduct) => {
+        return <div>{myProduct.productName} / {myProduct.price} / {myProduct.inventory}</div>
+      })}
     </div>
   );
 }

@@ -1,24 +1,27 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable } from "@/db/schema";
+import { productTable, categoryTable } from "@/db/schema";
 
-// export const createProduct = async (userId: string) => {
-//   "use server";
-//   console.log("[createProduct]");
-
-//   const newProId = await db.transaction(async (tx) => {
-//     const [newPro] = await tx
-//       .insert(productsTable)
-//       .values({
-
-//       })
-//       .returning();
-
-//     return newPro.displayId;
-//   });
-//   return newProId;
-// };
+export const createProduct = async (userId: string, newProductName: string, newProductDescription: string,
+    newPrice: number, newInventory: number, newProductCategoryID: string) => {
+  "use server";
+  //console.log("[createProduct]");
+  const newProductId = await db.transaction(async (tx) => {
+    const [newPro] = await tx
+      .insert(productTable)
+      .values({
+        productName: newProductName,
+        description: newProductDescription,
+        price: newPrice, 
+        inventory: newInventory,
+        sellerID: userId,
+        categoryID: newProductCategoryID,
+      })
+      .returning();
+});
+return newProductId;
+};
 
 export const getProducts = async () => {
   "use server";
@@ -36,6 +39,12 @@ export const getMyProducts = async (userId: string) => {
   });
   return products;
 };
+
+export const getCategories = async () => {
+  "use server";
+  const categories = await db.query.categoryTable.findMany();
+  return categories;
+}
 
 // export const deleteProduct = async (productId: string) => {
 //   "use server";
