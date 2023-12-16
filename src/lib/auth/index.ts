@@ -20,6 +20,7 @@ export const {
       const [user] = await db
         .select({
           id: membersTable.schoolID,
+          username: membersTable.username,
         })
         .from(membersTable)
         .where(eq(membersTable.schoolID, schoolID.toLowerCase()))
@@ -30,6 +31,7 @@ export const {
         user: {
           ...session.user,
           id: user.id,
+          username: user.username,
         },
       };
     },

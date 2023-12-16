@@ -28,6 +28,7 @@ function AuthForm() {
       schoolID,
       username,
       name,
+      phone,
       password,
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/mainPage`,
     });

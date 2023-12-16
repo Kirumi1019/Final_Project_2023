@@ -6,7 +6,6 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { membersTable } from "@/db/schema";
 import { authSchema } from "@/validators/auth";
-import { revalidatePath } from "next/cache";
 
 export default CredentialsProvider({
   name: "credentials",
@@ -29,7 +28,9 @@ export default CredentialsProvider({
     try {
       validatedCredentials = authSchema.parse(credentials);
     } catch (error) {
+      console.log(credentials);
       console.log("Failed to sign in.");
+      console.log(error);
       return null;
     }
 
@@ -66,9 +67,9 @@ export default CredentialsProvider({
         console.log("Real name is required.");
         return null;
       }
-      if(!phone)
+      if(!phone || phone.length != 10)
       {
-        console.log("Phone number is reruired.");
+        console.log("Phone number is required.");
         return null;
       }
 
