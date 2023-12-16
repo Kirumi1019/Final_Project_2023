@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable, categoryTable } from "@/db/schema";
+import { productTable, categoryTable, ordersTable, ordersContainTable } from "@/db/schema";
+import Orders from "../[memberId]/Orders/page";
 
 export const createProduct = async (userId: string, newProductName: string, newProductDescription: string,
     newPrice: number, newInventory: number, newProductCategoryID: string) => {
@@ -45,6 +46,7 @@ export const getCategories = async () => {
   const categories = await db.query.categoryTable.findMany();
   return categories;
 }
+
 
 // export const deleteProduct = async (productId: string) => {
 //   "use server";
