@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { membersTable } from "@/db/schema";
+import { membersTable, memberRoleTable } from "@/db/schema";
 import { authSchema } from "@/validators/auth";
 
 export default CredentialsProvider({
@@ -72,6 +72,7 @@ export default CredentialsProvider({
         console.log("Phone number is required.");
         return null;
       }
+      
 
       const [createdUser] = await db
         .insert(membersTable)
@@ -83,6 +84,12 @@ export default CredentialsProvider({
           password,
         })
         .returning();
+
+      await db.insert(memberRoleTable)
+      .values({
+        schoolID: createdUser.schoolID,
+        role: "User",
+      }).execute();
 
         return {
           // must have id for credential !!!!
