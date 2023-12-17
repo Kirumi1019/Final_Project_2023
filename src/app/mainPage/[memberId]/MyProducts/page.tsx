@@ -1,24 +1,43 @@
-import { auth } from "@/lib/auth";
-import { publicEnv } from "@/lib/env/public";
-import { redirect } from "next/navigation";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import { getMyProducts } from "../../_components/actions";
+import Entry from "./entry";
 
-
-async function MyProducts() {
-  const session = await auth();
-  if (!session || !session?.user?.id) {
-    redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
+type Props = {
+  params: {
+      memberId: string,
   }
-  const userId = session.user.id;
-  const myProducts = await getMyProducts(userId);
+}
 
+async function MyProducts({ params: { memberId } }: Props) {
+  const dbProduct = await getMyProducts(memberId);
   return (
-    <div>
-      <h1>MyProducts</h1>
-      {myProducts.map((myProduct) => {
-        return <div>{myProduct.productName} / {myProduct.price} / {myProduct.inventory}</div>
-      })}
-    </div>
+    <>
+        
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[200px]">Product Name</TableHead>
+          <TableHead>Product Description</TableHead>
+          <TableHead className="w-[100px]">Product Price</TableHead>
+          <TableHead className="w-[100px]">Product Inventory</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {dbProduct?.map((myProduct) => (
+          <Entry key={myProduct.productID} productID={myProduct.productID}
+            description={myProduct.description} price={myProduct.price} 
+            inventory={myProduct.inventory} productName={myProduct.productName}/>
+        ))}
+      </TableBody>
+    </Table>
+      </>
   );
 }
 export default MyProducts;

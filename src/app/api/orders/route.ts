@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { ordersContainTable, ordersTable } from "@/db/schema";
-
 // zod is a library that helps us validate data at runtime
 // it's useful for validating data coming from the client,
 // since typescript only validates data at compile time.

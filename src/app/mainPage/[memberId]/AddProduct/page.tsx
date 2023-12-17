@@ -34,10 +34,10 @@ function AddProduct({ params: { memberId } }: Props) {
         setProductCategory(e.target.value);
     }
 
-    const {postProduct,loading} = useProduct();
+    const {createProduct,loading} = useProduct();
     const handleSubmit = async () => {
         try {
-            await postProduct({
+            await createProduct({
                 productName,
                 description: productDescription,
                 price: productPrice,

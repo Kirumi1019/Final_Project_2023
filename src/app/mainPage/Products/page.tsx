@@ -9,21 +9,52 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Buy from "./Buy";
+import Like from "./Like";
+
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
-
-
-
+import { db } from "@/db";
+import { and, eq, sql } from "drizzle-orm";
+import { isInterestedInTable } from "@/db/schema";
+import { boolean } from "drizzle-orm/mysql-core";
 
 async function Products() {
-    
+      
   const products = await getProducts();
     const session = await auth();
     if (!session || !session?.user?.id) {
         redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
     }
     const userId = session.user.id;
+
+
+    const getinitialLike = async (productId:string) =>
+    {
+      
+      const exist = await db
+      .select({
+        userid: isInterestedInTable.memberID
+      })
+      .from(isInterestedInTable)
+      .where(
+        and(
+          eq(isInterestedInTable.memberID, userId),
+          eq(isInterestedInTable.productID, productId),
+        )
+      )
+      .execute();
+      
+      if(exist)
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    
+
     return (
       <>
         
@@ -43,6 +74,7 @@ async function Products() {
             <TableCell>{product.description}</TableCell>
             <TableCell>{product.price} NTD</TableCell>
             <TableCell><Buy userId={userId} productId={product.productID} productName={product.productName} productPrice={product.price}/></TableCell>
+            <TableCell><Like initialLike={getinitialLike(product.productID)} userId={userId} productId={product.productID}/></TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -2,6 +2,9 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 
+
+
+
 async function Orders() {
   const session = await auth();
   if (!session || !session?.user?.id) {
