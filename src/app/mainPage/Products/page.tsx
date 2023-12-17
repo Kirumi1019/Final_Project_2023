@@ -2,7 +2,6 @@ import { getProducts } from "../_components/actions";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -87,4 +86,3 @@ async function Products() {
 
 
 
-  

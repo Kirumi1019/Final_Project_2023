@@ -41,6 +41,16 @@ export const getMyProducts = async (userId: string) => {
   return products;
 };
 
+export const getMyOrders = async (userId: string) => {
+  "use server";
+
+  const MyOrders = await db.query.ordersTable.findMany({
+    where: eq(ordersTable.buyerId, userId)
+  });
+  return MyOrders;
+};
+
+
 export const getCategories = async () => {
   "use server";
   const categories = await db.query.categoryTable.findMany();

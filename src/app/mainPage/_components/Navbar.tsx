@@ -1,4 +1,4 @@
-
+import RoofingIcon from '@mui/icons-material/Roofing';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
@@ -16,22 +16,27 @@ async function Navbar() {
   const username = session.user.username;
 
   return (
-    <div className="w-full">
-      <nav className="sticky flex flex-around content-center top-0 w-full border bg-slate-100 p-3">
-        Hello, {username}
+    <div className="w-full flex flex-col justify-stretch">
+      <nav className="font-bold sticky flex flex-around justify-start content-center top-0 w-full border bg-slate-200 p-3">
+        <Link className='flex justify-around w-3/4' href={'/mainPage'}>
+          <RoofingIcon />
+          Hello, {username}
+        </Link>
       </nav>
 
-      
-      <section className="h-full flex flex-col justify-around m-3">
+      <div className="h-full flex flex-col justify-between">
+        <section className="h-3/4 flex flex-col justify-around  m-3">
+          <Menu />
+        </section>
 
-      <div>
+        <div className="m-3">
           <Link href={'/'}>
             <Button>Log out</Button>
           </Link>
+        </div>
       </div>
-      <Menu />
-        
-      </section>
+
+
     </div>
   );
 }
