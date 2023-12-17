@@ -58,7 +58,6 @@ async function Products() {
       <>
         
             <Table>
-      <TableCaption>A list of all products</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Product Name</TableHead>
