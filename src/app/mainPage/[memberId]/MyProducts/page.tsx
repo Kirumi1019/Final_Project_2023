@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 import { getMyProducts } from "../../_components/actions";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 
 async function MyProducts() {
@@ -13,12 +14,26 @@ async function MyProducts() {
   const myProducts = await getMyProducts(userId);
 
   return (
-    <div>
-      <h1>MyProducts</h1>
-      {myProducts.map((myProduct) => {
-        return <div>{myProduct.productName} / {myProduct.price} / {myProduct.inventory}</div>
-      })}
-    </div>
-  );
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-1/2">Product Name</TableHead>
+            <TableHead className="w-1/3">Price</TableHead>
+            <TableHead className="w-1/4">In-stock</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {myProducts.map((myProduct) => (
+            <TableRow key={myProduct.productID}>
+              <TableCell className="font-medium">{myProduct.productName}</TableCell>
+              <TableCell>{myProduct.price} NTD</TableCell>
+              <TableCell>{myProduct.inventory}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  )
 }
 export default MyProducts;

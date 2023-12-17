@@ -135,7 +135,7 @@ export const productTable = pgTable(
   productName: varchar("Product_name", { length: 50}).notNull(),
   description: varchar("Description", { length: 100 }),
   price: integer("Price").notNull(),
-  inventory: integer("Inventory").default(0),
+  inventory: integer("Inventory").default(0).notNull(),
   sellerID: char("Seller_id", { length: 9 }).notNull().references(() => membersTable.schoolID, {
     onDelete: "cascade",
     onUpdate: "cascade",

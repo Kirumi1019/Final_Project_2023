@@ -14,51 +14,51 @@ async function Menu() {
   return (
     <>
       <div className="w-full">
-      買家功能
+        Shop something
       </div>
 
       <div className="w-full">
-      <Link href={'/mainPage/Products'}>
-        <Button>All Products</Button>
-      </Link>
+        <Link href={'/mainPage/Products'}>
+          <Button>All Products</Button>
+        </Link>
       </div>
 
       <div className="w-full">
-      <Link href={`/mainPage/${id}/Orders`}>
-        <Button>My Orders</Button>
-      </Link>
+        <Link href={`/mainPage/${id}/Orders`}>
+          <Button>My Orders</Button>
+        </Link>
       </div>
 
       <div className="w-full">
-      賣家功能
+        Sell something
       </div>
 
       <div className="w-full">
-      <Link href={`/mainPage/${id}/MyProducts`}>
-        <Button>My Products</Button>
-      </Link>
+        <Link href={`/mainPage/${id}/MyProducts`}>
+          <Button>My Products</Button>
+        </Link>
       </div>
 
       <div className="w-full">
-      <Link href={`/mainPage/${id}/AddProduct`}>
-        <Button>Add Product</Button>
-      </Link>
+        <Link href={`/mainPage/${id}/AddProduct`}>
+          <Button>Add Product</Button>
+        </Link>
       </div>
 
       <div className="w-full">
-      <Link href={`/mainPage/${id}/Transactions`}>
-        <Button>My Transaction</Button>
-      </Link>
+        <Link href={`/mainPage/${id}/Transactions`}>
+          <Button>My Transaction</Button>
+        </Link>
       </div>
 
       <div className="w-full">
-      <Link href={`/mainPage/${id}/Reports`}>
-        <Button>Report Buyer</Button>
-      </Link>
+        <Link href={`/mainPage/${id}/Reports`}>
+          <Button>Report Buyer</Button>
+        </Link>
       </div>
     </>
-    
-    
+
+
   );
 }
 
