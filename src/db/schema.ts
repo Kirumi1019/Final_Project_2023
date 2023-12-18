@@ -57,6 +57,11 @@ export const ordersTable = pgTable(
     placeOrderDate: timestamp("Place_order_datetime").defaultNow().notNull(),
 
   },
+  (table) => ({
+    orderIdIndex: index("orderId_index").on(table.orderId),
+    orderBuyerIndex: index("orderBuyer_index").on(table.buyerId),
+    
+  })
 );
 
 export const ordersContainTable = pgTable(
@@ -76,6 +81,7 @@ export const ordersContainTable = pgTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.orderId, table.productId] }),
+    orderContainProductIdIndex: index("orderProductId_index").on(table.productId)
   }),
 );
 
@@ -125,27 +131,37 @@ export const isInterestedInTable = pgTable(
     })
   },
   (table) => ({
-    pk: primaryKey({ columns: [table.memberID, table.productID] }),
+    pk: primaryKey({ columns: [table.memberID, table.productID] }),    
+    interestMemIndex: index("interest_memberID_index").on(table.memberID),
+    interestProIndex: index("interest_productID_index").on(table.productID),
   })
 );
 
 export const productTable = pgTable(
   "product", {
-  productID: uuid("Product_id").defaultRandom().notNull().primaryKey(),
-  productName: varchar("Product_name", { length: 50}).notNull(),
-  description: varchar("Description", { length: 100 }),
-  price: integer("Price").notNull(),
-  inventory: integer("Inventory").default(0).notNull(),
-  sellerID: char("Seller_id", { length: 9 }).notNull().references(() => membersTable.schoolID, {
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  }),
-  offerDatetime: timestamp("Offer_datetime").default(sql`now()`).notNull(),
-  categoryID: uuid("Category_id").references(() => categoryTable.categoryID, {
-    onDelete: "set null",
-  }).default(sql`NULL`),
-  productStatus: varchar("Product_status", { length: 12, enum: ["launched", "stop-selling"] }).default("launched").notNull(),
-},
+    productID: uuid("Product_id").defaultRandom().notNull().primaryKey(),
+    productName: varchar("Product_name", { length: 50}).notNull(),
+    description: varchar("Description", { length: 100 }),
+    price: integer("Price").notNull(),
+    inventory: integer("Inventory").default(0).notNull(),
+    sellerID: char("Seller_id", { length: 9 }).notNull().references(() => membersTable.schoolID, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    offerDatetime: timestamp("Offer_datetime").default(sql`now()`).notNull(),
+    categoryID: uuid("Category_id").references(() => categoryTable.categoryID, {
+      onDelete: "set null",
+    }).default(sql`NULL`),
+    productStatus: varchar("Product_status", { length: 12, enum: ["launched", "stop-selling"] }).default("launched").notNull(),
+  },
+  (table) => ({
+    productIdIndex: index("productID_index").on(table.productID),
+    productStatusIndex: index("productStatus_index").on(table.productStatus),
+    productSellerIndex: index("productSeller_index").on(table.sellerID),
+
+    
+  })
+
 );
 
 export const categoryTable = pgTable(

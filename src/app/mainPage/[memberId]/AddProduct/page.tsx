@@ -12,7 +12,7 @@ type Props = {
 }
 
 function AddProduct({ params: { memberId } }: Props) {
-
+    
     const [productName, setProductName] = useState('');
     const handleProductNameChange = (e) => {
         setProductName(e.target.value);

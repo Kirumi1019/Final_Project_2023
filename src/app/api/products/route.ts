@@ -6,61 +6,33 @@ import { db } from "@/db";
 import { productTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// zod is a library that helps us validate data at runtime
-// it's useful for validating data coming from the client,
-// since typescript only validates data at compile time.
-// zod's schema syntax is pretty intuitive,
-// read more about zod here: https://zod.dev/
 const postProductRequestSchema = z.object({
-  productName: z.string(),
-  description: z.string(),
+  productName: z.string().max(50),
+  description: z.string().max(100),
   price: z.number(),
   inventory: z.number(),
-  sellerID: z.string(),
-  categoryID: z.string(),
+  sellerID: z.string().uuid(),
+  categoryID: z.string().uuid(),
 });
 
-// you can use z.infer to get the typescript type from a zod schema
 type PostTweetRequest = z.infer<typeof postProductRequestSchema>;
 
-// This API handler file would be trigger by http requests to /api/likes
-// POST requests would be handled by the POST function
-// GET requests would be handled by the GET function
-// etc.
-// read more about Next.js API routes here:
-// https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 export async function POST(request: NextRequest) {
-  const data = await request.json();
+  let data = await request.json();
   data.price = Number(data.price);
   data.inventory = Number(data.inventory);
   try {
-    // parse will throw an error if the data doesn't match the schema
     postProductRequestSchema.parse(data);
   } catch (error) {
-    // in case of an error, we return a 400 response
     console.log(error);
     return NextResponse.json({ error: "Invalid Input" }, { status: 400 });
   }
 
-  // Now we can safely use the data from the request body
-  // the `as` keyword is a type assertion, this tells typescript
-  // that we know what we're doing and that the data is of type LikeTweetRequest.
-  // This is safe now because we've already validated the data with zod.
   const { productName,description,price,inventory,sellerID,categoryID } = data as PostTweetRequest;
 
   try {
-    // This piece of code runs the following SQL query:
-    // INSERT INTO tweets (
-    //  user_handle,
-    //  content,
-    //  reply_to_tweet_id
-    // ) VALUES (
-    //  {handle},
-    //  {content},
-    //  {replyToTweetId}
-    // )
-    const newProId = await db.transaction(async (tx) => {
-      const [newPro] = await tx
+    await db.transaction(async (tx) => {
+      await tx
         .insert(productTable)
         .values({
           productName,
@@ -71,11 +43,8 @@ export async function POST(request: NextRequest) {
           categoryID,
         })
         .returning();
-      return newPro.productID;
     });
   } catch (error) {
-    // The NextResponse object is a easy to use API to handle responses.
-    // IMHO, it's more concise than the express API.
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 },
@@ -88,9 +57,9 @@ export async function POST(request: NextRequest) {
 
 
 const putOrderRequestSchema = z.object({
-  productId: z.string(),
-  productName: z.string().optional(),
-  productDescription: z.string().optional(),
+  productId: z.string().uuid(),
+  productName: z.string().max(50).optional(),
+  productDescription: z.string().max(100).optional(),
   productPrice: z.number().optional(),
   productInv: z.number().optional(),
 });
@@ -104,7 +73,7 @@ export async function PUT(
   
 
     // Parse the request body
-    const data = await request.json();
+    let data = await request.json();
     try {
       data.productPrice = +data.productPrice;
       data.productInv = +data.productInv;
@@ -119,42 +88,54 @@ export async function PUT(
     // Update document
     if(productName)
     {
-      await db
-      .update(productTable)
-      .set({
-        productName,
-      })
-      .where(eq(productTable.productID, productId))
-    }
+      await db.transaction(async (tx) => {
+        await tx
+        .update(productTable)
+        .set({
+          productName,
+        })
+        .where(eq(productTable.productID, productId))
+        .execute()
+      });
+    }  
 
     if(productDescription)
     {
-      await db
-      .update(productTable)
-      .set({
-        description: productDescription,
-      })
-      .where(eq(productTable.productID, productId))
+      await db.transaction(async (tx) => {
+        await tx
+        .update(productTable)
+        .set({
+          description: productDescription,
+        })
+        .where(eq(productTable.productID, productId))
+        .execute()
+      });
     }
 
     if(productPrice)
     {
-      await db
+      await db.transaction(async (tx) => {
+        await tx
       .update(productTable)
       .set({
         price: productPrice,
       })
       .where(eq(productTable.productID, productId))
+      .execute()
+      });
     }
 
     if(productInv)
     {
-      await db
+      await db.transaction(async (tx) => {
+        await tx
       .update(productTable)
       .set({
         inventory: productInv,
       })
       .where(eq(productTable.productID, productId))
+      .execute()
+    });
     }
     
   } catch (error) {
@@ -172,7 +153,7 @@ export async function PUT(
 
 
 const deleteProjectRequestSchema = z.object({
-  productId: z.string(),
+  productId: z.string().uuid(),
 });
 
 type deleteProductRequest = z.infer<typeof deleteProjectRequestSchema>;
@@ -189,12 +170,14 @@ export async function DELETE(request: NextRequest) {
   const { productId } = data as deleteProductRequest;
 
   try {
-    await db
+    await db.transaction(async (tx) => {
+      await tx
       .delete(productTable)
       .where(
           eq(productTable.productID, productId)
       )
-      .execute();
+      .execute()
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },

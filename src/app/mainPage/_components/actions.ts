@@ -1,15 +1,38 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable, categoryTable, ordersTable, ordersContainTable } from "@/db/schema";
-import Orders from "../[memberId]/Orders/page";
+import { productTable, ordersTable } from "@/db/schema";
+import { z } from "zod";
+
 
 export const createProduct = async (userId: string, newProductName: string, newProductDescription: string,
     newPrice: number, newInventory: number, newProductCategoryID: string) => {
   "use server";
   //console.log("[createProduct]");
-  const newProductId = await db.transaction(async (tx) => {
-    const [newPro] = await tx
+
+  const addProductSchema = z.object({
+    userId: z.string().length(9),
+    newProductName: z.string().max(50),
+    newProductDescription: z.string().max(100),
+    newPrice: z.number(),
+    newInventory: z.number(),
+    newProductCategoryID: z.string().uuid(),
+  });    
+
+  try{
+    addProductSchema.parse({
+      userId, newProductName, newProductDescription,
+    newPrice, newInventory, newProductCategoryID
+  });
+  } catch(error)
+  {
+    console.log(error);
+    return null;
+  }
+  
+
+  await db.transaction(async (tx) => {
+    await tx
       .insert(productTable)
       .values({
         productName: newProductName,
@@ -19,9 +42,9 @@ export const createProduct = async (userId: string, newProductName: string, newP
         sellerID: userId,
         categoryID: newProductCategoryID,
       })
-      .returning();
+      .execute();
 });
-return newProductId;
+
 };
 
 export const getProducts = async () => {

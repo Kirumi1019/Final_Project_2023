@@ -14,9 +14,8 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { isInterestedInTable } from "@/db/schema";
-import { boolean } from "drizzle-orm/mysql-core";
 
 async function Products() {
       
