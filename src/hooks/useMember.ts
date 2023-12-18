@@ -1,34 +1,35 @@
 import { useState } from "react";
 
-import { useRouter } from "next/navigation";
+import {useRouter} from 'next/navigation';
 
-export default function useOrder() {
+export default function useMember() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postOrder = async ({
-    buyerId,
-    productId,
-    quantity,
-    location,
-    delivery,
+  const updateMember = async ({
+    schoolId,
+    realname,
+    password,
+    phone,
+    username
   }: {
-    buyerId: string;
-    quantity: number;
-    productId: string;
-    location: string;
-    delivery: boolean;
+    schoolId: string;
+    realname: string;
+    password: string;
+    phone: string;
+    username: string;
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/orders", {
-      method: "POST",
+    const res = await fetch(`/api/members`, {
+      method: "PUT",
       body: JSON.stringify({
-        buyerId,
-        productId,
-        quantity,
-        location,
-        delivery
+        schoolId,
+        realname,
+        password,
+        phone,
+        username,
+        
       }),
     });
 
@@ -43,9 +44,12 @@ export default function useOrder() {
     router.refresh();
     setLoading(false);
   };
-
+  
   return {
-    postOrder,
+    updateMember,
     loading,
   };
 }
+
+
+

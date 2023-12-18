@@ -95,7 +95,7 @@ export const deliveryTable = pgTable(
     // displayId: uuid("display_id").defaultRandom().notNull().unique(),
     deliveryMethod: varchar("Delivery_method", { length: 10, enum:["Freight","FaceToFace"] }).notNull(),
     doneDeliveryDatetime: timestamp("Done_delivery_datetime").defaultNow(),
-    doneDliveryLocation: varchar("Done_delivery_location", { length: 50 }),
+    doneDliveryLocation: varchar("Done_delivery_location", { length: 100 }),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.orderId, table.deliveryMethod] }),

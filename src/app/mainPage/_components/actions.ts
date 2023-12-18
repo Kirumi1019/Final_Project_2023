@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable, ordersTable } from "@/db/schema";
+import { productTable, ordersTable, isInterestedInTable, membersTable } from "@/db/schema";
 import { z } from "zod";
 
 
@@ -50,8 +50,9 @@ export const createProduct = async (userId: string, newProductName: string, newP
 export const getProducts = async () => {
   "use server";
   const products = await db.query.productTable.findMany(
-    { where: eq(productTable.productStatus, "launched"), }
+    { where: and(eq(productTable.productStatus, "launched"),ne(productTable.inventory,0)), }
   );
+
   return products;
 };
 
@@ -73,13 +74,17 @@ export const getMyOrders = async (userId: string) => {
   return MyOrders;
 };
 
-
 export const getCategories = async () => {
   "use server";
   const categories = await db.query.categoryTable.findMany();
   return categories;
-}
+};
 
+export const getMyinfo = async (userId: string) => {
+  "use server";
+  const info = await db.select().from(membersTable).where(eq(membersTable.schoolID, userId));
+  return info;
+};
 
 // export const deleteProduct = async (productId: string) => {
 //   "use server";

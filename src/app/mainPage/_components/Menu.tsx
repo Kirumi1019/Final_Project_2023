@@ -18,6 +18,12 @@ async function Menu() {
       </div>
 
       <div className="w-full">
+        <Link href={`/mainPage/${id}/MyInfo`}>
+          <Button>My Info</Button>
+        </Link>
+      </div>
+
+      <div className="w-full">
         <Link href={'/mainPage/Products'}>
           <Button>All Products</Button>
         </Link>

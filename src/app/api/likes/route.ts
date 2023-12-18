@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       .execute();
     // The NextResponse object is a easy to use API to handle responses.
     // IMHO, it's more concise than the express API.
-    return NextResponse.json({ liked: Boolean(exist) }, { status: 200 });
+    return NextResponse.json({ exist }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },
@@ -48,8 +48,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
-  data.price = Number(data.price);
-  data.inventory = Number(data.inventory);
   try {
     // parse will throw an error if the data doesn't match the schema
     likeRequestSchema.parse(data);
@@ -60,37 +58,24 @@ export async function POST(request: NextRequest) {
   }
 
   const { userId,productId } = data as PostLikeRequest;
-  const [exist] = await db
-      .select({ dummy: sql`1` })
-      .from(isInterestedInTable)
-      .where(
-        and(
-          eq(isInterestedInTable.memberID, userId),
-          eq(isInterestedInTable.productID, productId),
-        ),
-      )
-      .execute();
-      
-  if(!exist)
-  {
-      try {
-        await db.transaction(async (tx) => {
-          await tx
-            .insert(isInterestedInTable)
-            .values({
-              memberID: userId,
-              productID: productId,
+  
+  try {
+    await db.transaction(async (tx) => {
+      await tx
+        .insert(isInterestedInTable)
+        .values({
+          memberID: userId,
+          productID: productId,
 
-            })
-            .execute();
-        });
-      } catch (error) {
+        })
+        .execute();
+    });
+  } catch (error) {
 
-        return NextResponse.json(
-          { error: "Something went wrong" },
-          { status: 500 },
-        );
-      }
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 },
+    );
   }
 
   return new NextResponse("OK", { status: 200 });

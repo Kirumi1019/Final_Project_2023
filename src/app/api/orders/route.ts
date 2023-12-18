@@ -3,12 +3,16 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { ordersContainTable, ordersTable } from "@/db/schema";
+import { deliveryTable, ordersContainTable, ordersTable, productTable } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 
 const postOrderRequestSchema = z.object({
   buyerId: z.string().length(9),
   productId: z.string().uuid(),
   quantity: z.number(),
+  location: z.string().max(100),
+  delivery: z.boolean(),
+
 });
 
 type PostTweetRequest = z.infer<typeof postOrderRequestSchema>;
@@ -24,7 +28,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { buyerId,productId,quantity } = data as PostTweetRequest;
+  const { buyerId,productId,quantity,location, delivery } = data as PostTweetRequest;
 
   try {
 
@@ -41,6 +45,17 @@ export async function POST(request: NextRequest) {
         orderId: newOrd.orderId,
         productId: productId,
         quantity: quantity,
+      });
+      await tx.update(productTable).set({
+        inventory: sql`${productTable.inventory} - ${quantity}`,
+      })
+      .where(eq(productTable.productID,productId))
+      .execute();
+      
+      await tx.insert(deliveryTable).values({
+        orderId: newOrd.orderId,
+        deliveryMethod: delivery?"FaceToFace":"Freight",
+        doneDliveryLocation: location,
       });
     });
   } catch (error) {

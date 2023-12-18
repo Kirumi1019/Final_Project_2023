@@ -14,7 +14,7 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { isInterestedInTable } from "@/db/schema";
 
 async function Products() {
@@ -29,7 +29,6 @@ async function Products() {
 
     const getinitialLike = async (productId:string) =>
     {
-      
       const exist = await db
       .select({
         userid: isInterestedInTable.memberID
@@ -42,12 +41,15 @@ async function Products() {
         )
       )
       .execute();
-      
-      if(exist)
+      // console.log(exist);
+      // console.log(exist.length);
+      if(exist.length != 0)
       {
+        // console.log(true);
         return true;
       }
       else{
+        // console.log(false);
         return false;
       }
     }
@@ -62,6 +64,7 @@ async function Products() {
           <TableHead className="w-[100px]">Product Name</TableHead>
           <TableHead>Product Description</TableHead>
           <TableHead>Product Price</TableHead>
+          <TableHead>Product Inventory</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -70,8 +73,9 @@ async function Products() {
             <TableCell className="font-medium">{product.productName}</TableCell>
             <TableCell>{product.description}</TableCell>
             <TableCell>{product.price} NTD</TableCell>
-            <TableCell><Buy userId={userId} productId={product.productID} productName={product.productName} productPrice={product.price}/></TableCell>
-            <TableCell><Like initialLike={getinitialLike(product.productID)} userId={userId} productId={product.productID}/></TableCell>
+            <TableCell>{product.inventory}</TableCell>
+            <TableCell><Buy userId={userId} productId={product.productID} productName={product.productName} productPrice={product.price} productInv={product.inventory}/></TableCell>
+            <TableCell><Like initialLike={Boolean(getinitialLike(product.productID))} userId={userId} productId={product.productID}/></TableCell>
           </TableRow>
         ))}
       </TableBody>
