@@ -11,11 +11,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 #### 後端資料庫建立說明
 1. 請先去以下網址註冊帳號、並依照圖片順序建立資料庫。
 https://neon.tech/
-![image](https://hackmd.io/_uploads/B1sNRMkD6.png)
-![image](https://hackmd.io/_uploads/BkDS0GJwa.png)
+![image](https://github.com/Kirumi1019/Final_Project_2023/assets/96559795/5f71b57a-61a6-4d3b-ba12-18367e3a2ad0)
+![image](https://github.com/Kirumi1019/Final_Project_2023/assets/96559795/d3cb8748-4d17-450a-8793-6733e4f598a7)
 
 2. 點開創建好的資料庫，將 Connection detail 內的 Connection string 的網址，點為顯示狀態後，複製下來，等等會需要填入特定檔案內。
-![image](https://hackmd.io/_uploads/BJO-171vp.png)
+![image](https://github.com/Kirumi1019/Final_Project_2023/assets/96559795/8ed61ce1-9d83-45de-b163-e2f9577bcf81)
 
 #### 系統建立說明 (建議在 Linux(Unix)/MacOS 環境上執行使用)
 1. 安裝 "Node.js"
