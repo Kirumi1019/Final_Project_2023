@@ -16,8 +16,7 @@ function Like({initialLike,userId,productId}: Props) {
 
     const [liked, setLiked] = useState<boolean>(initialLike);
 
-    const handleClick = async (e) => {
-        e.preventDefault();
+    const handleClick = async () => {
         if (!liked) {
         setLiked(true);
         await deleteLike({

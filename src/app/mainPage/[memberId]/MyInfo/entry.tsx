@@ -22,24 +22,9 @@ type Props = {
 function Entry(info: Props) {
   
     const [phone, setPhone] = useState(info.phone);
-    const handlePhoneChange = (e) => {
-      setPhone(e.target.value);
-    }
     const [realname, setRealName] = useState(info.realname);
-    const handleRealNameChange = (e) => {
-      setRealName(e.target.value);
-    }
-
     const [password, setPassword] = useState(info.password);
-    const handlePasswordChange = (e) => {
-      setPassword(e.target.value);
-    }
-
     const [username, setUserName] = useState(info.username);
-    const handleUserNameChange = (e) => {
-      setUserName(e.target.value);
-    }
-  
     const {updateMember,loading}= useMember();
     
 
@@ -68,7 +53,7 @@ function Entry(info: Props) {
                 required
                 id={'Name'+info.username}
                 defaultValue={info.realname}
-                onChange={handleRealNameChange}
+                onChange={(e) => {setRealName(e.target.value)}}
               />
           </TableCell>
           <TableCell>
@@ -76,7 +61,7 @@ function Entry(info: Props) {
                 required
                 id={'userName'+info.username}
                 defaultValue={info.username}
-                onChange={handleUserNameChange}
+                onChange={(e) => {setUserName(e.target.value)}}
               />
           </TableCell>
           <TableCell>
@@ -84,7 +69,7 @@ function Entry(info: Props) {
                 required
                 id={'password'+info.username}
                 defaultValue={info.password}
-                onChange={handlePasswordChange}
+                onChange={(e) => {setPassword(e.target.value)}}
               />
           </TableCell>
           <TableCell>
@@ -92,7 +77,7 @@ function Entry(info: Props) {
                 required
                 id={'phone'+info.username}
                 defaultValue={info.phone}
-                onChange={handlePhoneChange}
+                onChange={(e) => {setPhone(e.target.value)}}
               />
           </TableCell>
           <TableCell>

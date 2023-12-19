@@ -23,21 +23,10 @@ type Props = {
 function Entry(myProduct: Props) {
   
     const [productName, setProductName] = useState('');
-    const handleProductNameChange = (e) => {
-      setProductName(e.target.value);
-    }
     const [productDescript, setProductDescript] = useState('');
-    const handleProductDescriptChange = (e) => {
-      setProductDescript(e.target.value);
-    }
     const [productInv, setProductInv] = useState(0);
-    const handleProductInvChange = (e) => {
-      setProductInv(e.target.value);
-    }
     const [productPrice, setProductPrice] = useState(0);
-    const handleProductPriceChange = (e) => {
-      setProductPrice(e.target.value);
-    }
+
   
     const {updateProduct,loading,deleteProduct}= useProduct();
     
@@ -76,7 +65,7 @@ function Entry(myProduct: Props) {
                 required
                 id={'Product Name'+myProduct.productID}
                 defaultValue={myProduct.productName}
-                onChange={handleProductNameChange}
+                onChange={(e) => {setProductName(e.target.value)}}
               />
           </TableCell>
           <TableCell>
@@ -84,7 +73,7 @@ function Entry(myProduct: Props) {
                 required
                 id={'Product Description'+myProduct.productID}
                 defaultValue={myProduct.description}
-                onChange={handleProductDescriptChange}
+                onChange={(e) => {setProductDescript(e.target.value)}}
               />
           </TableCell>
           <TableCell>
@@ -92,7 +81,7 @@ function Entry(myProduct: Props) {
                 required
                 id={'Product Price'+myProduct.productID}
                 defaultValue={myProduct.price}
-                onChange={handleProductPriceChange}
+                onChange={(e) => {setProductPrice(parseInt(e.target.value))}}
               />
           </TableCell>
           <TableCell>
@@ -100,7 +89,7 @@ function Entry(myProduct: Props) {
                 required
                 id={'Product Quantity'+myProduct.productID}
                 defaultValue={myProduct.inventory}
-                onChange={handleProductInvChange}
+                onChange={(e) => {setProductInv(parseInt(e.target.value))}}
               />
           </TableCell>
           <TableCell>
