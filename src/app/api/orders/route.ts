@@ -46,6 +46,16 @@ export async function POST(request: NextRequest) {
         productId: productId,
         quantity: quantity,
       });
+
+      const [inv] = await tx.select({
+        inventory: productTable.inventory
+      }).from(productTable).where(eq(productTable.productID,productId))
+      
+      if(inv.inventory < quantity)
+      {
+        tx.rollback();
+        return ;
+      }
       await tx.update(productTable).set({
         inventory: sql`${productTable.inventory} - ${quantity}`,
       })
