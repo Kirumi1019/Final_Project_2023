@@ -53,7 +53,7 @@ async function Menu() {
 
       <div className="w-full">
         <Link href={`/mainPage/${id}/MyOrders`}>
-          <Button>My Order</Button>
+          <Button>My Orders</Button>
         </Link>
       </div>
 
