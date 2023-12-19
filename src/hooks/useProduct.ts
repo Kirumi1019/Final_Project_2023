@@ -23,7 +23,6 @@ export default function useProduct() {
     categoryID: string;
   }) => {
     setLoading(true);
-
     const res = await fetch(`/api/products`, {
       method: "POST",
       body: JSON.stringify({

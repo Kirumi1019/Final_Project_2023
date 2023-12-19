@@ -11,7 +11,7 @@ const postProductRequestSchema = z.object({
   description: z.string().max(100),
   price: z.number(),
   inventory: z.number(),
-  sellerID: z.string().uuid(),
+  sellerID: z.string().length(9),
   categoryID: z.string().uuid(),
 });
 

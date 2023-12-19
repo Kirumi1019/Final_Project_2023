@@ -58,24 +58,37 @@ export async function POST(request: NextRequest) {
   }
 
   const { userId,productId } = data as PostLikeRequest;
-  
-  try {
-    await db.transaction(async (tx) => {
-      await tx
-        .insert(isInterestedInTable)
-        .values({
-          memberID: userId,
-          productID: productId,
+  const [exist] = await db
+      .select({ dummy: sql`1` })
+      .from(isInterestedInTable)
+      .where(
+        and(
+          eq(isInterestedInTable.memberID, userId),
+          eq(isInterestedInTable.productID, productId),
+        ),
+      )
+      .execute();
+      
+  if(!exist)
+  {
+      try {
+        await db.transaction(async (tx) => {
+          await tx
+            .insert(isInterestedInTable)
+            .values({
+              memberID: userId,
+              productID: productId,
 
-        })
-        .execute();
-    });
-  } catch (error) {
+            })
+            .execute();
+        });
+      } catch (error) {
 
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 },
-    );
+        return NextResponse.json(
+          { error: "Something went wrong" },
+          { status: 500 },
+        );
+      }
   }
 
   return new NextResponse("OK", { status: 200 });

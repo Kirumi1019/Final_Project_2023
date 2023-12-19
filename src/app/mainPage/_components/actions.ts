@@ -1,4 +1,4 @@
-import { and, eq, ne } from "drizzle-orm";
+import { and, eq, ne, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import { productTable, ordersTable, isInterestedInTable, membersTable } from "@/db/schema";
@@ -49,9 +49,7 @@ export const createProduct = async (userId: string, newProductName: string, newP
 
 export const getProducts = async () => {
   "use server";
-  const products = await db.query.productTable.findMany(
-    { where: and(eq(productTable.productStatus, "launched"),ne(productTable.inventory,0)), }
-  );
+  const products = await db.select().from(productTable).where(ne(productTable.inventory,0)).orderBy(sql`${productTable.price} ASC`)
 
   return products;
 };
