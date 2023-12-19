@@ -16,8 +16,7 @@ https://neon.tech/
 ![image](https://github.com/Kirumi1019/Final_Project_2023/assets/96559795/8ed61ce1-9d83-45de-b163-e2f9577bcf81)
 
 #### 系統建立說明 (建議在 Linux(Unix)/MacOS 環境上執行使用)
-1. 安裝 "Node.js"
-    (1) 參閱網址，選擇符合自己系統的方式來安裝。(https://github.com/Schniz/fnm)
+1. 安裝 "Node.js"，參閱以下網址，選擇符合自己系統的方式來安裝。(https://github.com/Schniz/fnm)
 
 2. 輪流於終端機執行以下指令，檢查安裝狀態，並使 ```yarn```之指令可用。
 ```
@@ -74,5 +73,5 @@ cd <填入含有備份資料檔的檔案夾路徑>
 psql postgresql://Klmno1:uZnmqIyVvp80@ep-steep-cherry-54682590.ap-southeast-1.aws.neon.tech/DBMS%20Project?sslmode=require
 \copy <TableName> FROM '<FileName>.csv' DELIMITER ',' CSV HEADER
 ```
-4. 如果都不行，請參考以下我們已 deploy 至網路上的系統
+4. 如果上述方法都無法順利執行，請參考以下我們已 deploy 至網路上的系統。
 [Sell Taida](https://final-project-2023-hk6j-kirumis-projects.vercel.app/)
