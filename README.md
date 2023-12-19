@@ -72,5 +72,5 @@ cd <填入含有備份資料檔的檔案夾路徑>
 psql postgresql://Klmno1:uZnmqIyVvp80@ep-steep-cherry-54682590.ap-southeast-1.aws.neon.tech/DBMS%20Project?sslmode=require
 \copy <TableName> FROM '<FileName>.csv' DELIMITER ',' CSV HEADER
 ```
-4. 如果上述方法都無法順利執行，請參考以下我們已 deploy 至網路上的系統。
+4. 如果上述方法都無法順利執行，請參考以下我們已 deploy 至網路上的系統。（如果有登入不了之情形，請稍待系統片刻或是刷新頁面，有時候會有點卡） 
 [Sell Taida](https://final-project-2023-hk6j-kirumis-projects.vercel.app/)
