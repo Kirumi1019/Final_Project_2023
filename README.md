@@ -2,10 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Database Final Project 2023
 
 ### 專案簡介及架構說明
-1. 簡介
-　　此專案將建立一個「出清台大」的二手交易平台，讓在校教職員能創建帳號，並登入其中販賣自己的商品，或是購買別人的商品，來促進校園內的可持續消費和資源共享。使用者登入後，將可透過左方的功能列，選擇自己想用的功能。而管理員則可以直接透過後台去利用權限直接操作資料庫。
-2. 架構
-　　使用 ```next.js``` 作為前端架構，搭配線上的 neon 資料庫做為後端。
+1. 簡介：此專案將建立一個「出清台大」的二手交易平台，讓在校教職員能創建帳號，並登入其中販賣自己的商品，或是購買別人的商品，來促進校園內的可持續消費和資源共享。使用者登入後，將可透過左方的功能列，選擇自己想用的功能。而管理員則可以直接透過後台去利用權限直接操作資料庫。
+2. 架構：使用 ```next.js``` 作為前端架構，搭配線上的 neon 資料庫做為後端。
 
 ### 安裝說明
 #### 後端資料庫建立說明
@@ -19,7 +17,7 @@ https://neon.tech/
 
 #### 系統建立說明 (建議在 Linux(Unix)/MacOS 環境上執行使用)
 1. 安裝 "Node.js"
-    (1) 進入以下官方網址，選擇符合自己系統的下載連結來下載。(https://nodejs.org/en/download)
+    (1) 參閱網址，選擇符合自己系統的方式來安裝。(https://github.com/Schniz/fnm)
 
 2. 輪流於終端機執行以下指令，檢查安裝狀態，並使 ```yarn```之指令可用。
 ```
@@ -76,3 +74,5 @@ cd <填入含有備份資料檔的檔案夾路徑>
 psql postgresql://Klmno1:uZnmqIyVvp80@ep-steep-cherry-54682590.ap-southeast-1.aws.neon.tech/DBMS%20Project?sslmode=require
 \copy <TableName> FROM '<FileName>.csv' DELIMITER ',' CSV HEADER
 ```
+4. 如果都不行，請參考以下我們已 deploy 至網路上的系統
+[Sell Taida](https://final-project-2023-hk6j-kirumis-projects.vercel.app/)
