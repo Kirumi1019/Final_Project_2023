@@ -19,8 +19,8 @@ type PostTweetRequest = z.infer<typeof postProductRequestSchema>;
 
 export async function POST(request: NextRequest) {
   let data = await request.json();
-  data.price = Number(data.price);
-  data.inventory = Number(data.inventory);
+  data.price = parseInt(data.price);
+  data.inventory = parseInt(data.inventory);
   try {
     postProductRequestSchema.parse(data);
   } catch (error) {

@@ -58,12 +58,12 @@ function AddProduct({ params: { memberId } }: Props) {
                     focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 
                     dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value=''>---Choose a Category---</option>
-                    <option value="009ae339-979c-45b3-94c5-e12f834aa860">Sports Equipment</option>
-                    <option value="3598f340-5807-46bd-bde5-4710f9124469">Clothing</option>
-                    <option value="4e84c72b-1bc8-4703-af0f-7306e770baa8">Electronics</option>
-                    <option value="9d39ca6d-e533-4e39-b60f-056d587b9a23">Miscellaneous</option>
-                    <option value="9dc6cc83-0440-4946-adea-0ac3bb187a74">Kitchen & Dining</option>
-                    <option value="e1caf1ea-7fa5-48cd-a029-a3897a1c2260">Bath Supplies</option>
+                    <option value="80acf924-79b9-4dc5-a109-2abbad6fad4e">Sports Equipment</option>
+                    <option value="ac8b8a04-702b-47d2-8103-4dd261fafcaa">Clothing</option>
+                    <option value="6e24ceb1-01bd-4ef0-8aa7-cb14cf5a0cb4">Electronics</option>
+                    <option value="1c043c25-be58-4587-8bbd-bdaa8c189b3c">Miscellaneous</option>
+                    <option value="6d868e28-afc0-4074-9831-bdca52a808a2">Kitchen & Dining</option>
+                    <option value="241901de-7346-4dc1-b88b-1bbc6e2784d0">Bath Supplies</option>
                 </select>
                 
                 <Button disabled={loading} className="m-4">Add Product</Button>
