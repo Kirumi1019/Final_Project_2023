@@ -45,20 +45,34 @@ yarn
 yarn migrate
 yarn dev
 ```
-4. 若成功執行，可點擊終端機中的網址 http://localhost:3000 ，即可進入本專案，並能使用買賣家之功能。
+4. 若成功執行，可點擊終端機中的網址 http://localhost:3000 ，即可進入本專案，並能使用買賣家之功能。（若執行失敗，請見其他注意事項） 
+
+5. 此時資料庫將為沒有任何東西的狀態，因此需要手動灌入資料，將以下程式碼執行即可寫入資料。（若此步驟有問題，請見其他注意事項） 
+```
+cd <填入含有備份資料檔的檔案夾路徑>
+psql <此處填入剛剛於線上後端資料庫取得的連結>
+\copy <TableName> FROM '<FileName>.csv' DELIMITER ',' CSV HEADER
+```
 
 #### 系統管理員功能執行
 1. 於同樣位置，在成功執行上述系統後，於終端機輸入以下指令，即可於後台直接執行須系統管理員權限之功能。
 ```
 yarn studio
 ```
+####
 
 ### 其他注意事項
 1. 本專案資料庫是使用線上的 neon 資料庫，因此請在有網路的環境下執行！
 2. 跑得有點慢屬正常現象，請稍稍耐心等候一下
-3. 若有任何無法連入自己建立之後端之情況請將```.env.local```檔更改為以下所示，使用我們已經開設好的後端資料庫做使用。
+3. 若有任何無法連入自己建立之後端之情況，請將```.env.local```檔更改為以下所示，使用我們已經開設好的後端資料庫做使用。
 ```
 NEXT_PUBLIC_BASE_URL= http://localhost:3000
 POSTGRES_URL = postgresql://Klmno1:uZnmqIyVvp80@ep-steep-cherry-54682590.ap-southeast-1.aws.neon.tech/DBMS%20Project?sslmode=require
 AUTH_SECRET = <此處填入任何字串皆可>
+```
+同時灌入資料時所用指令也須做更改，如以下所示。
+```
+cd <填入含有備份資料檔的檔案夾路徑>
+psql postgresql://Klmno1:uZnmqIyVvp80@ep-steep-cherry-54682590.ap-southeast-1.aws.neon.tech/DBMS%20Project?sslmode=require
+\copy <TableName> FROM '<FileName>.csv' DELIMITER ',' CSV HEADER
 ```
